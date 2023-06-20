@@ -35,7 +35,7 @@ class Display {
     }
     animate() {
         this.draw();
-        const a = this.animate;
+        // const a = this.animate;
         this.world.animate();
         requestAnimationFrame(this.animate.bind(this));
     }

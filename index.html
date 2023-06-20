@@ -1,0 +1,78 @@
+<body style="margin:0;padding:0;background: black;text-align: center;">
+    <canvas id="canvas" style="background:silver;margin:auto;"></canvas>
+</body>
+<script>
+    const SCALE = 20;
+    const DENSITY = 0.1;
+    const GAP = 1;
+    var c = document.getElementById("canvas");
+    width = window.innerWidth / SCALE;
+    height = window.innerHeight / SCALE;
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+
+    var ctx = c.getContext("2d");
+    ctx.strokeStyle = "green";
+    ctx.fillStyle = "green";
+
+    const data = [];
+    for (let y = 0; y < height; y++) {
+        const row=[];
+        for (let x = 0; x < width; x++) {
+            // row.push(Math.random() > DENSITY ? 0 : 1);
+            row.push(0);
+        }
+        data.push(row);
+    }
+
+function draw() {
+  ctx.clearRect(0, 0, c.width, c.height);  
+  data[0][Math.round(
+    ((Math.random() +
+    Math.random() +
+    Math.random()) / 3)
+     * width)] = 1; 
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+        if(data[y][x]){
+            ctx.fillRect(x * SCALE, y * SCALE, SCALE - GAP, SCALE - GAP); 
+        }
+    }
+  }
+  
+  ctx.stroke();
+}
+function loop() {
+  let y = data.length - 1;
+  let moved = false;
+  while (y > 0) {
+    let x = data[y].length - 1;
+    while (x >= 0) {
+      if (data[y - 1][x] === 1) {
+        if (data[y][x] === 0) {
+          data[y][x] = 1;
+          data[y - 1][x] = 0;
+          moved = true;
+        } else if (data[y][x - 1] === 0) {
+          data[y][x - 1] = 1;
+          data[y - 1][x] = 0;
+          moved = true;
+        } else if (data[y][x + 1] === 0) {
+          data[y][x + 1] = 1;
+          data[y - 1][x] = 0;
+          moved = true;
+        }
+      }
+      x--;
+    }
+    y--;
+  }
+  if (moved) {
+    draw();
+    // setTimeout(loop, 1000);
+    requestAnimationFrame(loop);
+  }
+}
+draw();
+loop();
+</script> 

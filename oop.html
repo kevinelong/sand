@@ -1,0 +1,24 @@
+<head>
+    <script src="oop.js"></script>
+</head>
+<body style="margin:0;padding:0;background: black;text-align: center;">
+    <canvas id="canvas" style="background:black;margin:auto;"></canvas>
+</body>
+<script>
+    const SCALE = Math.floor(window.innerWidth / 120);
+    const GAP = 1;
+    var canvasElement = document.getElementById("canvas");
+
+    canvasElement.width = window.innerWidth;
+    canvasElement.height = window.innerHeight;
+
+    width = Math.floor(window.innerWidth / SCALE);
+    height = Math.floor(window.innerHeight / SCALE);
+
+    const world = new World(width, height);
+    const display = new Display(world, canvasElement, SCALE, GAP);
+    display.animate();
+    
+    // const simulation = new Simulation(world, display)
+    // simulation.run() or .animate();
+</script>
